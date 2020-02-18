@@ -6,13 +6,13 @@ class Converter:
 
         background_color = 'Light blue'
 
-        self.converter_frame = Frame(width=300, bg=background_color,
+        self.converter_frame = Frame(bg=background_color,
                                      pady=10)
         self.converter_frame.grid()
 
         self.temp_heading_label = Label(self.converter_frame,
                                         text="Temperature Converter",
-                                        font="Arial 16 bold", bg=background_color,
+                                        font="Arial 19 bold", bg=background_color,
                                         padx=10, pady=10)
         self.temp_heading_label.grid(row=0)
 
@@ -60,8 +60,8 @@ class Converter:
                                   text="Help", width=5)
         self.help_button.grid(row=0, column=1)
 
-    def temp_convert(self, to):
-        print(to)
+    def temp_convert(self, low):
+        print(low)
 
         error = "#ffafaf"
 
@@ -69,13 +69,45 @@ class Converter:
 
         try:
             to_convert = float(to_convert)
+            has_errors = "no"
+
+            if low == -273 and to_convert >=low:
+                fahrenheit = (to_convert * 9/5) + 32
+                to_convert = self.round_it(to_convert)
+                fahrenheit = self.round_it(fahrenheit)
+                answer = "{} degress C is {} degress F".format(to_convert, fahrenheit)
+
+            elif low == -495 and to_convert >= low:
+                celsius = (to_convert - 32) * 5/9
+                to_convert = self.round_it(to_convert)
+                celsius = self.round_it(celsius)
+                answer = "{} degress C is {} degrees F".format(to_convert, celsius)
+
+            else:
+
+                answer = "Too Cold!"
+                has_errors = "yes"
+
+                if has_errors == "no":
+                    self.converted_label.configure(text=answer, gf="blue")
+                    self.to_convert_entry.configure(bg="white")
+                else:
+                    self.converted_label.configure(text=answer, fg="red")
+                    self.to_convert_entry.configure(bg=error)
 
         except ValueError:
             self.converted_label.configure(text="Enter a number!!", fg="red")
             self.to_convert_entry.configure(bg=error)
 
+    def round_it(self, to_round):
+        if to_round % 1 == 0:
+            rounded = int(to_round)
+        else:
+            rounded = round(to_round, 1)
 
-# Main  Routine Starts here
+        return rounded
+
+
 if __name__ == "__main__":
     root = Tk()
     root.title("Temperature Converter")
