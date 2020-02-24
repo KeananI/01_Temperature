@@ -64,6 +64,7 @@ class Converter:
         print(low)
 
         error = "#ffafaf"
+        answer="answer"
 
         to_convert = self.to_convert_entry.get()
 
@@ -71,29 +72,28 @@ class Converter:
             to_convert = float(to_convert)
             has_errors = "no"
 
-            if low == -273 and to_convert >=low:
+            if low == -273 and to_convert >= low:
                 fahrenheit = (to_convert * 9/5) + 32
                 to_convert = self.round_it(to_convert)
                 fahrenheit = self.round_it(fahrenheit)
                 answer = "{} degress C is {} degress F".format(to_convert, fahrenheit)
 
-            elif low == -495 and to_convert >= low:
+            elif low == -459 and to_convert >= low:
                 celsius = (to_convert - 32) * 5/9
                 to_convert = self.round_it(to_convert)
                 celsius = self.round_it(celsius)
-                answer = "{} degress C is {} degrees F".format(to_convert, celsius)
+                answer = "{} degress F is {} degrees C".format(to_convert, celsius)
 
             else:
-
-                answer = "Too Cold!"
+                answer = "Too Cold"
                 has_errors = "yes"
 
-                if has_errors == "no":
-                    self.converted_label.configure(text=answer, gf="blue")
-                    self.to_convert_entry.configure(bg="white")
-                else:
-                    self.converted_label.configure(text=answer, fg="red")
-                    self.to_convert_entry.configure(bg=error)
+            if has_errors == "no":
+                self.converted_label.configure(text=answer, fg="blue")
+                self.to_convert_entry.configure(bg="white")
+            else:
+                self.converted_label.configure(text=answer, fg="red")
+                self.to_convert_entry.configure(bg=error)
 
         except ValueError:
             self.converted_label.configure(text="Enter a number!!", fg="red")
