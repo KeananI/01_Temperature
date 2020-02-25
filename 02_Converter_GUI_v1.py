@@ -6,6 +6,8 @@ class Converter:
 
         background_color = 'Light blue'
 
+        self.all_calculations = []
+
         self.converter_frame = Frame(bg=background_color,
                                      pady=10)
         self.converter_frame.grid()
@@ -95,6 +97,10 @@ class Converter:
                 self.converted_label.configure(text=answer, fg="red")
                 self.to_convert_entry.configure(bg=error)
 
+            if answer != "Too Cold":
+                self.all_calculations.append(answer)
+                print(self.all_calculations)
+                
         except ValueError:
             self.converted_label.configure(text="Enter a number!!", fg="red")
             self.to_convert_entry.configure(bg=error)
