@@ -10,6 +10,14 @@ class Converter:
         # Formatting Variables...
         background_color = "light blue"
 
+        self.all_calc_list = ['123 degress F is 50.6 degrees C',
+                              '123 degress C is 253.4 degress F',
+                              '123 degress F is 50.6 degrees C',
+                              '123 degress C is 253.4 degress F',
+                              '123 degress F is 50.6 degrees C',
+                              '123 degress C is 253.4 degress F',
+                              '123 degress F is 50.6 degrees C']
+
         # Converter Main Screen GUI...
         self.converter_frame = Frame(width=600, heigh=600, bg=background_color, pady=10)
         self.converter_frame.grid()
@@ -20,45 +28,49 @@ class Converter:
                                           padx=10, pady=10)
         self.temp_converter_label.grid(row=0)
 
-        self.help_button = Button(self.converter_frame, text="Help",font=("Arial", "14")
-                                  , padx=10, pady=10, command=self.help)
-        self.help_button.grid(row=1)
+        self.history_button = Button(self.converter_frame, text="history",font=("Arial", "14")
+                                  , padx=10, pady=10, command=self.history)
+        self.history_button.grid(row=1)
 
-    def help(self):
-        print("You asked for help")
-        get_help = Help(self)
-        get_help.help_text.configure(text="Help text goes here")
+    def history(self):
+        print("You asked for history")
+        get_history = history(self)
+        get_history.history_text.configure(text="history text goes here")
 
-class Help:
+class history:
     def __init__(self, partner):
 
         background = 'orange'
 
-        partner.help_button.config(state=DISABLED)
+        partner.history_button.config(state=DISABLED)
 
-        self.help_box = Toplevel()
+        self.history_box = Toplevel()
 
-        self.help_box.protocol('WM_DELETE_WINDOW', partial(self.close_help,partner))
+        self.history_box.protocol('WM_DELETE_WINDOW', partial(self.close_history,partner))
 
-        self.help_frame = Frame(self.help_box, width=300, bg=background)
-        self.help_frame.grid()
+        self.history_frame = Frame(self.history_box, width=300, bg=background)
+        self.history_frame.grid()
 
-        self.how_heading = Label(self.help_frame, text="Help / Instructions",
+        self.how_heading = Label(self.history_frame, text="history / Instructions",
                                  font='arial 10 bold', bg=background)
         self.how_heading.grid(row=0)
 
-        self.help_text = Label(self.help_frame, text="",
-                               justify=LEFT, width=40, bg=background, wrap=250)
-        self.help_text.grid(column=0, row=1)
+        self.history_text = Label(self.history_frame,
+                                  text="Here are your most recent"
+                                  "calculations. Please use the"
+                                  "export button to create a text"
+                                  "file of all your calculations for"
+                                  "this session ",justify=LEFT, width=40, bg=background, wrap=250)
+        self.history_text.grid(column=0, row=1)
 
-        self.dismiss_btn = Button(self.help_frame, text="Dismiss", width=10, bg="orange",
-                                  command=partial(self.close_help,partner))
+        self.dismiss_btn = Button(self.history_frame, text="Dismiss", width=10, bg="orange",
+                                  command=partial(self.close_history,partner))
         self.dismiss_btn.grid(row=2, pady=10)
 
-    def close_help(self, partner):
+    def close_history(self, partner):
 
-        partner.help_button.config(state=NORMAL)
-        self.help_box.destroy()
+        partner.history_button.config(state=NORMAL)
+        self.history_box.destroy()
 
 
 # main routine
