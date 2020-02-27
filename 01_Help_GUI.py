@@ -28,34 +28,34 @@ class Converter:
                                           padx=10, pady=10)
         self.temp_converter_label.grid(row=0)
 
-        self.history_button = Button(self.converter_frame, text="history",font=("Arial", "14")
-                                  , padx=10, pady=10, command=self.history)
-        self.history_button.grid(row=1)
+        self.History_button = Button(self.converter_frame, text="History"
+                                     ,font=("Arial", "14")
+                                     ,padx=10, pady=10, command=lambda: self.History
+                                     (self.all_calc_list))
+        self.History_button.grid(row=1)
 
-    def history(self):
-        print("You asked for history")
-        get_history = history(self)
-        get_history.history_text.configure(text="history text goes here")
+    def History(self, calc_History):
+        History(self, calc_History)
 
-class history:
-    def __init__(self, partner):
+class History:
+    def __init__(self, partner, calc_history):
 
-        background = 'orange'
+        background = 'white'
 
-        partner.history_button.config(state=DISABLED)
+        partner.History_button.config(state=DISABLED)
 
-        self.history_box = Toplevel()
+        self.History_box = Toplevel()
 
-        self.history_box.protocol('WM_DELETE_WINDOW', partial(self.close_history,partner))
+        self.History_box.protocol('WM_DELETE_WINDOW', partial(self.close_History,partner))
 
-        self.history_frame = Frame(self.history_box, width=300, bg=background)
-        self.history_frame.grid()
+        self.History_frame = Frame(self.History_box, width=300, bg=background)
+        self.History_frame.grid()
 
-        self.how_heading = Label(self.history_frame, text="history / Instructions",
+        self.how_heading = Label(self.History_frame, text="Calculation History",
                                  font='arial 10 bold', bg=background)
         self.how_heading.grid(row=0)
 
-        self.history_text = Label(self.history_frame,
+        self.History_text = Label(self.History_frame,
                                   text="Here are your most recent"
                                   "calculations. Please use the"
                                   "export button to create a text"
@@ -64,15 +64,35 @@ class history:
                                   justify=LEFT, bg=background, fg="maroon", padx=10,
                                   pady=10)
 
-        self.history_text.grid(row=1)
+        self.History_text.grid(row=1)
 
-        self.export_dismiss_frame = Frame(self.history_frame)
+        history_string = ""
+
+        if len(calc_history) >=7:
+            for item in range(0, 7):
+                history_string += calc_history[len(calc_history)
+                                                - item -1]+"\n"
+
+        self.calc_label = Label(self.history_frame, text=history_string,
+                                bg=background,front="Airal 12", justify=LEFT)
+        self.calc_label.grid(row=2)
+
+        self.export_dismiss_frame = Frame(self.History_frame)
         self.export_dismiss_frame.grid(row=3, pady=10)
 
-    def close_history(self, partner):
+        self.export_button = Button(self.export_dismiss_frame, text="Export",
+                                    font="Arial 12 bold")
+        self.export_button.grid(row=0, column=0)
 
-        partner.history_button.config(state=NORMAL)
-        self.history_box.destroy()
+        self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
+                                     font="Arial 12 bold", command=partial(self.close_History()))
+        self.dismiss_button.grid(row=0, column=1)
+
+
+    def close_History(self, partner):
+
+        partner.History_button.config(state=NORMAL)
+        self.History_box.destroy()
 
 
 # main routine
