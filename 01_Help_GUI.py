@@ -60,12 +60,14 @@ class history:
                                   "calculations. Please use the"
                                   "export button to create a text"
                                   "file of all your calculations for"
-                                  "this session ",justify=LEFT, width=40, bg=background, wrap=250)
-        self.history_text.grid(column=0, row=1)
+                                  "this session ", wrap=250, font="arial 10 italic",
+                                  justify=LEFT, bg=background, fg="maroon", padx=10,
+                                  pady=10)
 
-        self.dismiss_btn = Button(self.history_frame, text="Dismiss", width=10, bg="orange",
-                                  command=partial(self.close_history,partner))
-        self.dismiss_btn.grid(row=2, pady=10)
+        self.history_text.grid(row=1)
+
+        self.export_dismiss_frame = Frame(self.history_frame)
+        self.export_dismiss_frame.grid(row=3, pady=10)
 
     def close_history(self, partner):
 
