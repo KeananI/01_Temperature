@@ -29,13 +29,14 @@ class Converter:
         self.temp_converter_label.grid(row=0)
 
         self.History_button = Button(self.converter_frame, text="History"
-                                     ,font=("Arial", "14")
-                                     ,padx=10, pady=10, command=lambda: self.History
-                                     (self.all_calc_list))
+                                        , font=("Arial", "14"),
+                                        padx=10, pady=10, command=lambda: self.history
+                                        (self.all_calc_list))
         self.History_button.grid(row=1)
 
-    def History(self, calc_History):
-        History(self, calc_History)
+    def history(self, calc_history):
+        History(self, calc_history)
+
 
 class History:
     def __init__(self, partner, calc_history):
@@ -46,7 +47,7 @@ class History:
 
         self.History_box = Toplevel()
 
-        self.History_box.protocol('WM_DELETE_WINDOW', partial(self.close_History,partner))
+        self.History_box.protocol('WM_DELETE_WINDOW', partial(self.close_history,partner))
 
         self.History_frame = Frame(self.History_box, width=300, bg=background)
         self.History_frame.grid()
@@ -73,7 +74,7 @@ class History:
                 history_string += calc_history[len(calc_history)
                                                 - item -1]+"\n"
 
-        self.calc_label = Label(self.history_frame, text=history_string,
+        self.calc_label = Label(self.History_frame, text=history_string,
                                 bg=background,front="Airal 12", justify=LEFT)
         self.calc_label.grid(row=2)
 
@@ -85,13 +86,12 @@ class History:
         self.export_button.grid(row=0, column=0)
 
         self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
-                                     font="Arial 12 bold", command=partial(self.close_History()))
+                                     font="Arial 12 bold", command=partial(self.close_history()))
         self.dismiss_button.grid(row=0, column=1)
 
+    def close_history(self, partner):
 
-    def close_History(self, partner):
-
-        partner.History_button.config(state=NORMAL)
+        partner.history_button.config(state=NORMAL)
         self.History_box.destroy()
 
 
