@@ -28,11 +28,11 @@ class Converter:
                                           padx=10, pady=10)
         self.temp_converter_label.grid(row=0)
 
-        self.History_button = Button(self.converter_frame, text="History"
+        self.history_button = Button(self.converter_frame, text="History"
                                         , font=("Arial", "14"),
                                         padx=10, pady=10, command=lambda: self.history
                                         (self.all_calc_list))
-        self.History_button.grid(row=1)
+        self.history_button.grid(row=1)
 
     def history(self, calc_history):
         History(self, calc_history)
@@ -43,7 +43,7 @@ class History:
 
         background = 'white'
 
-        partner.History_button.config(state=DISABLED)
+        partner.history_button.config(state=DISABLED)
 
         self.History_box = Toplevel()
 
@@ -75,7 +75,7 @@ class History:
                                                 - item -1]+"\n"
 
         self.calc_label = Label(self.History_frame, text=history_string,
-                                bg=background,front="Airal 12", justify=LEFT)
+                                bg=background, font="Arial 12", justify=LEFT)
         self.calc_label.grid(row=2)
 
         self.export_dismiss_frame = Frame(self.History_frame)
@@ -86,12 +86,13 @@ class History:
         self.export_button.grid(row=0, column=0)
 
         self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
-                                     font="Arial 12 bold", command=partial(self.close_history()))
+                                     font="Arial 12 bold",
+                                     command=partial(self.close_history(partial)))
         self.dismiss_button.grid(row=0, column=1)
 
     def close_history(self, partner):
 
-        partner.history_button.config(state=NORMAL)
+        self.history_button.config(state=NORMAL)
         self.History_box.destroy()
 
 
