@@ -87,12 +87,13 @@ class History:
 
         self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
                                      font="Arial 12 bold",
-                                     command=partial(self.close_history(partial)))
+                                     command=lambda: self.history
+                                     (partial))
         self.dismiss_button.grid(row=0, column=1)
 
     def close_history(self, partner):
 
-        self.history_button.config(state=NORMAL)
+        partner.history_button.config(state=NORMAL)
         self.History_box.destroy()
 
 
