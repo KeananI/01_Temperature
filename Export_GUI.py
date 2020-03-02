@@ -31,38 +31,38 @@ class Converter:
                                           padx=10, pady=10)
         self.temp_converter_label.grid(row=0)
 
-        self.history_button = Button(self.converter_frame, text="History"
+        self.export_button = Button(self.converter_frame, text="export"
                                         , font=("Arial", "14"),
-                                        padx=10, pady=10, command=lambda: self.history
+                                        padx=10, pady=10, command=lambda: self.export
                                         (self.all_calc_list))
-        self.history_button.grid(row=1)
+        self.export_button.grid(row=1)
 
         if len(self.all.calc_list) == 0:
-            self.history_button.config(state=DISABLED)
+            self.export_button.config(state=DISABLED)
 
-    def history(self, calc_history):
-        History(self, calc_history)
+    def export(self, calc_export):
+        export(self, calc_export)
 
 
-class History:
-    def __init__(self, partner, calc_history):
+class export:
+    def __init__(self, partner, calc_export):
 
         background = 'white'
 
-        partner.history_button.config(state=DISABLED)
+        partner.export_button.config(state=DISABLED)
 
-        self.History_box = Toplevel()
+        self.export_box = Toplevel()
 
-        self.History_box.protocol('WM_DELETE_WINDOW', partial(self.close_history,partner))
+        self.export_box.protocol('WM_DELETE_WINDOW', partial(self.close_export,partner))
 
-        self.History_frame = Frame(self.History_box, width=300, bg=background)
-        self.History_frame.grid()
+        self.export_frame = Frame(self.export_box, width=300, bg=background)
+        self.export_frame.grid()
 
-        self.how_heading = Label(self.History_frame, text="Calculation History",
+        self.how_heading = Label(self.export_frame, text="Calculation export",
                                  font='arial 10 bold', bg=background)
         self.how_heading.grid(row=0)
 
-        self.History_text = Label(self.History_frame,
+        self.export_text = Label(self.export_frame,
                                   text="Here are your most recent"
                                   "calculations. Please use the"
                                   "export button to create a text"
@@ -71,20 +71,20 @@ class History:
                                   justify=LEFT, bg=background, fg="maroon", padx=10,
                                   pady=10)
 
-        self.History_text.grid(row=1)
+        self.export_text.grid(row=1)
 
-        history_string = ""
+        export_string = ""
 
-        if len(calc_history) >=7:
+        if len(calc_export) >=7:
             for item in range(0, 7):
-                history_string += calc_history[len(calc_history)
+                export_string += calc_export[len(calc_export)
                                                 - item -1]+"\n"
 
-        self.calc_label = Label(self.History_frame, text=history_string,
+        self.calc_label = Label(self.export_frame, text=export_string,
                                 bg=background, font="Arial 12", justify=LEFT)
         self.calc_label.grid(row=2)
 
-        self.export_dismiss_frame = Frame(self.History_frame)
+        self.export_dismiss_frame = Frame(self.export_frame)
         self.export_dismiss_frame.grid(row=3, pady=10)
 
         self.export_button = Button(self.export_dismiss_frame, text="Export",
@@ -93,14 +93,14 @@ class History:
 
         self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
                                      font="Arial 12 bold",
-                                     command=lambda: self.history
+                                     command=lambda: self.export
                                      (partial))
         self.dismiss_button.grid(row=0, column=1)
 
-    def close_history(self, partner):
+    def close_export(self, partner):
 
-        partner.history_button.config(state=NORMAL)
-        self.History_box.destroy()
+        partner.export_button.config(state=NORMAL)
+        self.export_box.destroy()
 
 
 # main routine
