@@ -10,15 +10,15 @@ class Converter:
         # Formatting Variables...
         background_color = "light blue"
 
-        '''self.all_calc_list = ['123 degress F is 50.6 degrees C',
+        self.all_calc_list = ['123 degress F is 50.6 degrees C',
                               '123 degress C is 253.4 degress F',
                               '123 degress F is 50.6 degrees C',
                               '123 degress C is 253.4 degress F',
                               '123 degress F is 50.6 degrees C',
                               '123 degress C is 253.4 degress F',
-                              '123 degress F is 50.6 degrees C']'''
+                              '123 degress F is 50.6 degrees C']
 
-        self.all_calc_list = []
+        # self.all_calc_list = []
 
 
         # Converter Main Screen GUI...
@@ -37,7 +37,7 @@ class Converter:
                                         (self.all_calc_list))
         self.history_button.grid(row=1)
 
-        if len(self.all.calc_list) == 0:
+        if len(self.all_calc_list) == 0:
             self.history_button.config(state=DISABLED)
 
     def history(self, calc_history):
