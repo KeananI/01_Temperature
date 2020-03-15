@@ -6,9 +6,14 @@ class Converter:
 
         background_color = 'Light blue'
 
-        self.all_calculations = []
+        self.all_calc_list = ['123 degress F is 50.6 degrees C',
+                                '123 degress C is 253.4 degress F',
+                                '123 degress F is 50.6 degrees C',
+                                '123 degress C is 253.4 degress F',
+                                '123 degress F is 50.6 degrees C',
+                                ]
 
-        self.converter_frame = Frame(bg=background_color,
+        self.converter_frame = Frame(width=300, height=300, bg=background_color,
                                      pady=10)
         self.converter_frame.grid()
 
@@ -97,9 +102,9 @@ class Converter:
                 self.converted_label.configure(text=answer, fg="red")
                 self.to_convert_entry.configure(bg=error)
 
-            if answer != "Too Cold":
-                self.all_calculations.append(answer)
-                print(self.all_calculations)
+            if has_errors != "yes":
+                self.all_calc_list.append(answer)
+                self.history_button.config(state=NORMAL)
 
         except ValueError:
             self.converted_label.configure(text="Enter a number!!", fg="red")
