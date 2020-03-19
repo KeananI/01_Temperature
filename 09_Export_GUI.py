@@ -41,10 +41,10 @@ class Converter:
             self.export_button.config(state=DISABLED)
 
     def export(self, calc_export):
-        export(self, calc_export)
+        Export(self, calc_export)
 
 
-class export:
+class Export:
     def __init__(self, partner, calc_export):
 
         background = 'white'
@@ -72,29 +72,37 @@ class export:
                                     bg=background, wrap=250)
         self.export_text.grid(row=1)
 
-        export_string = ""
+        # Entry Box for file name goes here...
+        self.filename_entry = Entry(self.export_frame,
+                                width=20, font="Arial 14 bold", justify=CENTER)
+        self.filename_entry.grid(row=3, pady=10)
 
-        if len(calc_export) >=7:
-            for item in range(0, 7):
-                export_string += calc_export[len(calc_export)
-                                                - item -1]+"\n"
+        # Save / Cancel frame
+        self.save_cancel_frame = Frame(self.export_frame)
+        self.save_cancel_frame.grid(row=5, pady=10)
 
-        self.calc_label = Label(self.export_frame, text=export_string,
-                                bg=background, font="Arial 12", justify=LEFT)
-        self.calc_label.grid(row=2)
+        # Save and Cancel Buttons
+        self.save_button = Button(self.save_cancel_frame, text="Save")
+        self.save_button.grid(row=0, column=0)
+
+        self.cancel_button = Button(self.save_cancel_frame, text="Cancel",
+                                    command=partial(self.close_export, partner))
+        self.cancel_button.grid(row=0, column=1)
+
 
         self.export_dismiss_frame = Frame(self.export_frame)
         self.export_dismiss_frame.grid(row=3, pady=10)
 
-        self.export_button = Button(self.export_dismiss_frame, text="Export",
+        self.save_button = Button(self.export_dismiss_frame, text="Save",
                                     font="Arial 12 bold")
-        self.export_button.grid(row=0, column=0)
+        self.save_button.grid(row=0, column=0)
 
         self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
                                      font="Arial 12 bold",
                                      command=partial(self.close_export, partner))
         self.dismiss_button.grid(row=0, column=1)
 
+    # closes export dialogue
     def close_export(self, partner):
 
         partner.export_button.config(state=NORMAL)
