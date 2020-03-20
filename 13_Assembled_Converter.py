@@ -1,4 +1,7 @@
 from tkinter import *
+from functools import partial  # To prevent unwanted windows
+
+import random
 
 
 class Converter:
@@ -6,14 +9,9 @@ class Converter:
 
         background_color = 'Light blue'
 
-        self.all_calc_list = ['123 degress F is 50.6 degrees C',
-                                '123 degress C is 253.4 degress F',
-                                '123 degress F is 50.6 degrees C',
-                                '123 degress C is 253.4 degress F',
-                                '123 degress F is 50.6 degrees C',
-                                ]
+        self.all_calc_list = []
 
-        self.converter_frame = Frame(width=300, height=300, bg=background_color,
+        self.converter_frame = Frame(bg=background_color,
                                      pady=10)
         self.converter_frame.grid()
 
@@ -59,9 +57,13 @@ class Converter:
         self.hist_help_frame = Frame(self.converter_frame)
         self.hist_help_frame.grid(row=5, pady=10)
 
-        self.calc_hist_button = Button(self.hist_help_frame, font="Arial 12 bold",
-                                       text="Calculation history", width=15)
-        self.calc_hist_button.grid(row=0, column=0)
+        self.history_button = Button(self.hist_help_frame, font="Arial 12 bold",
+                                     text="Calculation history", width=15,
+                                     command=lambda: self.history(self.all_calc_list))
+        self.history_button.grid(row=0, column=0)
+
+        if len(self.all_calc_list) == 0:
+            self.history_button.config(state=DISABLED)
 
         self.help_button = Button(self.hist_help_frame, font="Arial 12 bold",
                                   text="Help", width=5)
@@ -118,14 +120,75 @@ class Converter:
 
         return rounded
 
-    def export(self, calc_export):
-        export(self, calc_export)
+    def history(self, calc_history):
+        History(self, calc_history)
 
 
-class export:
+class History:
+    def __init__(self, partner, calc_history):
+
+        background = 'white'
+
+        partner.history_button.config(state=DISABLED)
+
+        self.history_box = Toplevel()
+
+        self.history_box.protocol('WM_DELETE_WINDOW', partial(self.close_history,partner))
+
+        self.History_frame = Frame(self.history_box, width=300, bg=background)
+        self.History_frame.grid()
+
+        self.how_heading = Label(self.History_frame, text="Calculation History",
+                                 font='arial 10 bold', bg=background)
+        self.how_heading.grid(row=0)
+
+        self.History_text = Label(self.History_frame,
+                                  text="Here are your most recent"
+                                  "calculations. Please use the"
+                                  "export button to create a text"
+                                  "file of all your calculations for"
+                                  "this session ", wrap=250, font="arial 10 italic",
+                                  justify=LEFT, bg=background, fg="maroon", padx=10,
+                                  pady=10)
+
+        self.History_text.grid(row=1)
+
+        history_string = ""
+
+        if len(calc_history) >=7:
+            for item in range(0, 7):
+                history_string += calc_history[len(calc_history)
+                                                - item -1]+"\n"
+
+        self.calc_label = Label(self.History_frame, text=history_string,
+                                bg=background, font="Arial 12", justify=LEFT)
+        self.calc_label.grid(row=2)
+
+        self.export_dismiss_frame = Frame(self.History_frame)
+        self.export_dismiss_frame.grid(row=3, pady=10)
+
+        self.export_button = Button(self.export_dismiss_frame, text="Export",
+                                    font="Arial 12 bold")
+        self.export_button.grid(row=0, column=0)
+
+        self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
+                                     font="Arial 12 bold",
+                                     command=partial(self.close_history, partner))
+        self.dismiss_button.grid(row=0, column=1)
+
+    def close_history(self, partner):
+
+        partner.history_button.config(state=NORMAL)
+        self.history_box.destroy()
+
+    def export(self, partner, calc_export):
+        Export(self, partner, calc_export)
+
+class Export:
     def __init__(self, partner, calc_export):
 
         background = 'white'
+        print(calc_export)
 
         partner.export_button.config(state=DISABLED)
 
@@ -141,44 +204,38 @@ class export:
         self.how_heading.grid(row=0)
 
         self.export_text = Label(self.export_frame,
-                                  text="Here are your most recent"
-                                  "calculations. Please use the"
-                                  "export button to create a text"
-                                  "file of all your calculations for"
-                                  "this session ", wrap=250, font="arial 10 italic",
-                                  justify=LEFT, bg=background, fg="maroon", padx=10,
-                                  pady=10)
-
+                                  text="Enter a filename in the"
+                                       "box below and press the"
+                                       "save button to save your"
+                                       "calculation history to a"
+                                       "text file"
+                                 , justify=LEFT, width=40,
+                                    bg=background, wrap=250)
         self.export_text.grid(row=1)
 
-        export_string = ""
-
-        if len(calc_export) >=7:
-            for item in range(0, 7):
-                export_string += calc_export[len(calc_export)
-                                                - item -1]+"\n"
-
-        self.calc_label = Label(self.export_frame, text=export_string,
-                                bg=background, font="Arial 12", justify=LEFT)
-        self.calc_label.grid(row=2)
+        # Entry Box for file name goes here...
+        self.filename_entry = Entry(self.export_frame,
+                                width=20, font="Arial 14 bold", justify=CENTER)
+        self.filename_entry.grid(row=3, pady=10)
 
         self.export_dismiss_frame = Frame(self.export_frame)
-        self.export_dismiss_frame.grid(row=3, pady=10)
+        self.export_dismiss_frame.grid(row=4, pady=10)
 
-        self.export_button = Button(self.export_dismiss_frame, text="Export",
+        self.save_button = Button(self.export_dismiss_frame, text="Save",
                                     font="Arial 12 bold")
-        self.export_button.grid(row=0, column=0)
+        self.save_button.grid(row=0, column=0)
 
         self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
                                      font="Arial 12 bold",
-                                     command=lambda: self.export
-                                     (partial))
+                                     command=partial(self.close_export, partner))
         self.dismiss_button.grid(row=0, column=1)
 
+    # closes export dialogue
     def close_export(self, partner):
 
         partner.export_button.config(state=NORMAL)
         self.export_box.destroy()
+
 
 
 # main routine

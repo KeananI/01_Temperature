@@ -77,21 +77,8 @@ class Export:
                                 width=20, font="Arial 14 bold", justify=CENTER)
         self.filename_entry.grid(row=3, pady=10)
 
-        # Save / Cancel frame
-        self.save_cancel_frame = Frame(self.export_frame)
-        self.save_cancel_frame.grid(row=5, pady=10)
-
-        # Save and Cancel Buttons
-        self.save_button = Button(self.save_cancel_frame, text="Save")
-        self.save_button.grid(row=0, column=0)
-
-        self.cancel_button = Button(self.save_cancel_frame, text="Cancel",
-                                    command=partial(self.close_export, partner))
-        self.cancel_button.grid(row=0, column=1)
-
-
         self.export_dismiss_frame = Frame(self.export_frame)
-        self.export_dismiss_frame.grid(row=3, pady=10)
+        self.export_dismiss_frame.grid(row=4, pady=10)
 
         self.save_button = Button(self.export_dismiss_frame, text="Save",
                                     font="Arial 12 bold")
